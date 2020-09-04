@@ -1,0 +1,11 @@
+.divGame
+{
+    padding:20px;
+    border: 1px solid gray;
+}
+
+.tblBets>tr>td
+{
+    padding:5px;
+    border-bottom: 1px solid gray;
+}

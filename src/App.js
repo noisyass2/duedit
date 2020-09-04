@@ -9,6 +9,7 @@ import {
   useParams
 } from "react-router-dom";
 import { Game } from "./Game";
+import { Admin } from "./Admin";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   return (
     <Router>
     <div>
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -29,7 +30,7 @@ function App() {
             <Link to="/users">Users</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
@@ -37,8 +38,8 @@ function App() {
         <Route path="/about">
           <About />
         </Route>
-        <Route path="/users">
-          <Users />
+        <Route path="/admin">
+          <Admin/>
         </Route>
         
         <Route path="/">
