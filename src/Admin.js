@@ -19,7 +19,8 @@ export  class Admin extends React.Component{
             dbs: [],
             newPlayer: "",
             newGame: "",
-            selectedRound :null
+            selectedRound :null,
+            isLoading: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleNewGame = this.handleNewGame.bind(this);
@@ -35,6 +36,7 @@ export  class Admin extends React.Component{
     }
 
     loadDBS() {
+        this.setState({isLoading:true})
         fetch(this.APIURL + "api/getDBS")
             .then(res => res.json())
             .then(json => {
@@ -43,6 +45,7 @@ export  class Admin extends React.Component{
                 if(this.state.selectedRound != null) {
                     this.setState({selectedRound : json.filter(p => {return p.name == this.state.selectedRound.name})[0]})
                 }
+                this.setState({isLoading:false})
                 return { players: json.players };
             })
             .catch(p => {
@@ -107,7 +110,7 @@ export  class Admin extends React.Component{
         console.log("ADD GAME" + this.state.newGame)
         // var {selectedRound} = this.state;
         //http://localhost:5000/api/newRound
-
+        
         fetch(this.APIURL + "api/newRound?display=" + this.state.newGame)
         .then(res => res.json())
         .then(dta => {
@@ -120,12 +123,22 @@ export  class Admin extends React.Component{
     lockGame(d){
         console.log("LOCK GAME:" + d.name)
         
-        fetch(this.APIURL + "api/lockGame?db=" + d.name)
-        .then(res => res.text())
-        .then(dta => {
-            console.log(dta); 
-            this.loadDBS();            
-        })
+        if(!d.locked)
+        {
+            fetch(this.APIURL + "api/lockGame?db=" + d.name)
+            .then(res => res.text())
+            .then(dta => {
+                console.log(dta); 
+                this.loadDBS();            
+            })
+        }else{
+            fetch(this.APIURL + "api/unlockGame?db=" + d.name)
+            .then(res => res.text())
+            .then(dta => {
+                console.log(dta); 
+                this.loadDBS();            
+            })
+        }
     }    
 
     reloadBets(d) {
@@ -134,7 +147,7 @@ export  class Admin extends React.Component{
         this.loadDBS();  
     }
     render() {
-        var {dbs,selectedRound} = this.state;
+        var {dbs,selectedRound,isLoading} = this.state;
         var dbNames = dbs.map(d => <li key={d.name}><div onClick={this.selectDB.bind(this,d)} key={d.name} >{d.display} [{d.name}]</div></li>)
         var players = <div>No Players yet</div>
         var bets= <div>No Bets yet</div>
@@ -147,7 +160,7 @@ export  class Admin extends React.Component{
             }    
         }
         
-        return <div className="divAdmin">Admin Page
+        return <div className="divAdmin">Admin Page  {isLoading ? <span className="loading">Loading</span> : <span></span>}
             <div>Games :</div>
             <ul>
                 {dbNames}
@@ -176,7 +189,8 @@ export  class Admin extends React.Component{
 
               
                 <div className="divBets">
-                    Bets: <button onClick={this.reloadBets.bind(this,selectedRound)}>Reload</button> <button onClick={this.lockGame.bind(this,selectedRound)} >Lock Game</button>
+                    Bets: <button onClick={this.reloadBets.bind(this,selectedRound)}>Reload</button> <button onClick={this.lockGame.bind(this,selectedRound)} >Toggle Lock</button>
+                    {selectedRound.locked ? <span className="locked">Locked</span> : <span></span>}
                     <table className="tblBets" cellSpacing="0">
                         {bets}
                     </table>

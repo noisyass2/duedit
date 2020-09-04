@@ -103,7 +103,7 @@ export  class Game extends React.Component{
     // the dynamic pieces of the URL.
     render() {
         
-        let {dbid,players, bets} = this.state
+        let {dbid,players, bets,name} = this.state
         let plist = []
         if(players)
         {
@@ -114,7 +114,7 @@ export  class Game extends React.Component{
         betsl = bets.map(p => <tr key={p.name + p.bet} ><td>{p.name} bets {p.amount} to {p.bet}</td></tr>)
         return (  
         <div className="divGame">
-            <strong>Game: {dbid}</strong>
+            <strong>Game: {name}</strong>
             <div>
                 Your ingame name: 
                 <div> <input type="text" value={this.state.ign} onChange={this.handleign} /></div>
