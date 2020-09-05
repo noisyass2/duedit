@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './Admin.css';
+import copy from "copy-to-clipboard";  
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -146,6 +148,13 @@ export  class Admin extends React.Component{
 
         this.loadDBS();  
     }
+
+    export(d){
+        var bets = d.state.bets.map(p => p.name + "|" + p.amount + "|" + p.bet )
+        console.log(bets.join("\n"))
+        
+        copy(bets.join("\n"));
+    }
     render() {
         var {dbs,selectedRound,isLoading} = this.state;
         var dbNames = dbs.map(d => <li key={d.name}><div onClick={this.selectDB.bind(this,d)} key={d.name} >{d.display} [{d.name}]</div></li>)
@@ -194,7 +203,7 @@ export  class Admin extends React.Component{
                     <table className="tblBets" cellSpacing="0">
                         {bets}
                     </table>
-                    
+                    <button onClick={this.export.bind(this,selectedRound)} >Copy</button>
                 </div>
 
                 </div>
