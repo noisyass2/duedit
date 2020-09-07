@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { Game } from "./Game";
 import { Admin } from "./Admin";
-
+import { Live } from "./Live";
 
 function App() {
   
@@ -41,7 +41,9 @@ function App() {
         <Route path="/admin">
           <Admin/>
         </Route>
-        
+        <Route path="/live">
+          <Live/>
+        </Route>
         <Route path="/">
           <Game/>
         </Route>

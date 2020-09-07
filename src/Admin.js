@@ -13,7 +13,8 @@ import {
 
 
 export  class Admin extends React.Component{
-    APIURL = "https://duedit-api.herokuapp.com/"
+    // APIURL = "https://duedit-api.herokuapp.com/"
+    APIURL = "http://localhost:5000/"
     constructor(props)
     {
         super(props)
@@ -74,6 +75,19 @@ export  class Admin extends React.Component{
         })
     }
 
+    winPlayer(p) {
+        console.log(p)
+        var {selectedRound} = this.state;
+        // http://localhost:5000/api/delPlayer?db=VG1R1&name=p2
+        fetch(this.APIURL + "api/winPlayer?db=" + selectedRound.name + "&name=" + p.name)
+        .then(res => res.text())
+        .then(dta => {
+            console.log(dta); 
+            this.loadDBS();
+            
+        })
+    }
+
     delBet(p) {
         console.log(p)
         var {selectedRound} = this.state;
@@ -108,6 +122,7 @@ export  class Admin extends React.Component{
         })
     }
 
+    
     addGame(){
         console.log("ADD GAME" + this.state.newGame)
         // var {selectedRound} = this.state;
@@ -162,7 +177,9 @@ export  class Admin extends React.Component{
         var bets= <div>No Bets yet</div>
         if(selectedRound && selectedRound.players && selectedRound.players.length > 0)
         {
-            players = selectedRound.players.map(p => <li key={p.name}>{p.name} <button onClick={this.delPlayer.bind(this,p)}>X</button></li>)
+            players = selectedRound.players.map(p => <li key={p.name}>{p.name} 
+            <button onClick={this.winPlayer.bind(this,p)}>{!p.win ? "WIN" : "UNWIN"}</button> 
+            <button onClick={this.delPlayer.bind(this,p)}>X</button></li>)
             if(selectedRound.state && selectedRound.state.bets)
             {
                 bets = selectedRound.state.bets.map(p => <tr key={p.name + p.bet} ><td>{p.name} bets {p.amount} to {p.bet}</td> <td> <button onClick={this.delBet.bind(this,p)}>X</button></td></tr>)

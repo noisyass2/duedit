@@ -1,0 +1,22 @@
+.divBets
+{
+    padding: 10px;
+    margin: 10px;
+    border:1px solid gray;
+    float: left;
+}
+
+.divTable
+{
+    padding: 10px;
+    margin: 10px;
+    border:1px solid gray;
+    float: left;
+    width: 75%;
+}
+
+.win
+{
+    background-color: lightgreen;
+    font-weight: bold;
+}
