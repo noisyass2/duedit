@@ -13,8 +13,8 @@ import {
 
 
 export  class Admin extends React.Component{
-    // APIURL = "https://duedit-api.herokuapp.com/"
-    APIURL = "http://localhost:5000/"
+    APIURL = "https://duedit-api.herokuapp.com/"
+    // APIURL = "http://localhost:5000/"
     constructor(props)
     {
         super(props)
